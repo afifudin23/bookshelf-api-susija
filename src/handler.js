@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-undef */
 /* eslint-disable max-len */
 const { nanoid } = require('nanoid');
 const books = require('./books');
@@ -106,13 +108,13 @@ const getAllBooksHandler = (request, h) => {
 
 const getBookByIdHandler = (request, h) => {
   const { bookId } = request.params;
-  const abook = books.filter((b) => b.bookId === bookId)[0];
+  const abook = books.filter((b) => b.id === bookId)[0];
 
   if (abook !== undefined) {
     const response = h.response({
       status: 'success',
       data: {
-        abook,
+        book: abook,
       },
     });
     response.code(200);
@@ -128,7 +130,7 @@ const getBookByIdHandler = (request, h) => {
 };
 
 const editBookByIdHandler = (request, h) => {
-  const { id } = request.params;
+  const { bookId } = request.params;
   const {
     name, year, author, summary, publisher, pageCount, readPage, reading,
   } = request.payload;
@@ -137,7 +139,7 @@ const editBookByIdHandler = (request, h) => {
 
   if (!name) {
     const response = h.response({
-      status: ' fail',
+      status: 'fail',
       message: 'Gagal memperbarui buku. Mohon isi nama buku',
     });
     response.code(400);
@@ -179,7 +181,7 @@ const editBookByIdHandler = (request, h) => {
 };
 
 const deleteBookByIdHandler = (request, h) => {
-  const { id } = request.params;
+  const { bookId } = request.params;
   const index = books.findIndex((book) => book.id === id);
 
   if (index !== -1) {
